@@ -1,4 +1,4 @@
-###     SCRIPT: DIATROFI FFQ DIETARY PATTERNS VIA (ROBUST) PCA VARIMAX ROTATION
+###     SCRIPT: DIATROFI FFQ DIETARY PATTERNS VIA PCA VARIMAX ROTATION
 ###     AUTHOR(S): SIOBHAN BRUSHETT 
 ###     DESCRIPTION: VARIMAC PCA AND ROBUST PCA ON FFQ ITEMS FROM THE BASELINE 2015-2016 AND 2017-2018 DIATROFI DATA
 ###     PROJECT: MERGED DIATROFI 2015-2018
@@ -6,7 +6,6 @@
 ###              PAPERS: https://doi.org/10.1093/ecco-jcc/jjab219 (Genetics Department, Groningen); https://doi.org/10.1093/eurpub/ckaa178 (Prolepsis)
 ###              TESTS: https://www.statology.org/bartletts-test-of-sphericity/; https://www.statisticshowto.com/kaiser-meyer-olkin/
 
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/")
 
 #libraries
 library(tidyverse)
@@ -24,24 +23,6 @@ library(circlize) #cluster analysis
 library(RColorBrewer)
 library(vegan) #version 2.6-2; Bray Curtis distance matrix
  
-#functions
-#cluster analysis (Laura and Arnau) #updated_SB: removed scaling as all variables have the same value range
-do.clustering <- function(diet_data,
-                          dist.method="euclidean",        #ordinary straight line distance between 2 points in the euclidean space. With this distance, euclidean space becomes a metric space. root of (x1-x2)^2 + (y1-y2)^2
-                          cluster.method = "complete",    
-                          h= 0.5){                        #Clustering height at which the tree is cut into groups. The higher this number, the more stringent and the less groups.
-        if (dist.method == "euclidean"){         
-                data.dist = dist(t(diet_data))                #t: dist() calculating the distance matrix expects vectors to be horizontal. Transform data so that cols=id, rows=foods 
-        } else {
-                data.dist = as.dist(1-cor(diet_data)^2)               #else: correlation based distance, considers 2 objects similar if their features are highly correlated, even though the observed values mau be far apart in euclidean distance. The lower the distance e.g. 0 the more correlated. 
-        }
-        hclust.object=hclust(data.dist, method = cluster.method) #hierarchical clustering of similar foods into groups
-        plot(hang.dendrogram(as.dendrogram(hclust.object), cex=0.5, hang=-1)) #horiz=T, type="triangle", hang=-1, error: "hang" is not a graphical parameter
-        
-        cutree_returned = cutree(hclust.object,h=h)                      #Cut the tree resulting from hclust into several group by specifying h 
-        cutree_returned
-}
-
 ##Contents of this file
 
 ## 0. LOAD DATA
@@ -49,11 +30,6 @@ do.clustering <- function(diet_data,
 ## 2. DERIVE FFQ WEIGHTED FREQUENCIES
 ## 3. TESTS TO VALIDATE PC FACTOR ANALYSIS
 ## 4. PCA USING VARIMAX ROTATION
-## 5. PCA USING OBLIQUE TRANSFORMATION
-## 6. ROBUST PCA AND COMPARISON WITH STANDARD PCA
-## 7. PCA USING HIERARCHICAL CLUSTERING 
-## 8. CLUSTER ANALYSIS (EUCLIDEAN AND BRAY CURTIS DISTANCES)
-
 
         #### =============== 0. LOAD DATA   ================ ####
 
@@ -436,196 +412,3 @@ F5_loadings <- regression_item_loadings %>%
 #5 items
 
 rm(pca_varimax_regression, ffq_pc_regression, regression_item_loadings, F1_loadings, F2_loadings, F3_loadings, F4_loadings, F5_loadings)
-
-        #### =============== 5. PCA USING OBLIQUE TRANSFORMATION   ================ ####
-#pca_oblique <- psych::principal(dia_merged_ffq, rotate="oblimin", nfactors=5, scores=TRUE) #first 5 components
-#summary(pca_oblique)
-
-#pdf(file = "2023_02_16_diatrofi_ffq_pca_oblique_correlation.pdf", useDingbats = F, onefile = T, width = 20, height=12)
-#corrplot(pca_oblique$loadings,is.corr=F)
-##fa.diagram(pca_oblique)
-#dev.off()
-
-#pc_obl_loadings <- pca_oblique$loadings
-
-#ffq_pc_obl <- as.matrix(dia_merged_ffq)
-#ffq_pc_obl <- ffq_pc_obl %*% pc_obl_loadings
-
-#write.table(ffq_pc_obl, "2023_02_20_ffq_pca_oblique_loadings.txt", sep="\t", row.names=T, quote = F)
-
-#defining key items of loadings
-#oblique_item_loadings <- as.data.frame(loadings(pca_oblique)[])
-#summary(oblique_item_loadings)
-
-#oblique_item_loadings$items <- rownames(oblique_item_loadings)
-#TC1_loadings <- oblique_item_loadings %>%
-#        filter(TC1 > 0.45) %>%
-#        select (c(items, TC1)) %>%
-#        na.omit(TC1_loadings) %>%
-#        arrange(desc(TC1))
-#19 items
-
-#TC2_loadings <- oblique_item_loadings %>% 
-#        filter(TC2 > 0.45) %>%
-#        select (c(items, TC2)) %>%
-#        na.omit(TC2_loadings) %>%
-#        arrange(desc(TC2))
-#10 items
-
-#TC3_loadings <- oblique_item_loadings %>% 
-#        filter(TC3 > 0.45) %>%
-#        select (c(items, TC3)) %>%
-#        na.omit(TC3_loadings) %>%
-#        arrange(desc(TC3))
-#2 items
-
-#TC4_loadings <- oblique_item_loadings %>% 
-#        filter(TC4 > 0.45) %>%
-#        select (c(items, TC4)) %>%
-#        na.omit(TC4_loadings) %>%
-#        arrange(desc(TC4))
-#5 items
-
-#TC5_loadings <- oblique_item_loadings %>% 
-#        filter(TC5 > 0.5) %>%
-#        select (c(items, TC5)) %>%
-#        na.omit(TC5_loadings) %>%
-#        arrange(desc(TC5))
-#3 items
-
-#clean RStudio
-#rm(pca_oblique, ffq_pc_obl, oblique_item_loadings, TC1_loadings, TC2_loadings, TC3_loadings, TC4_loadings, TC5_loadings)
-
-        #### =============== 6. ROBUST PCA AND COMPARISON WITH STANDARD PCA   ================ ####
-
-#ffq_robust_pca <- PcaHubert(dia_merged_ffq, k=5, alpha =0.75, scale=FALSE, center = FALSE)
-#sdev <- sqrt(ffq_robust_pca$eigenvalues) #compute SD of PCs from eigenvalues
-#raw_loadings_robust_pca <- ffq_robust_pca$loadings[,1:5] %*% diag(sdev, 5, 5)
-#robust_pca_loadings_varimax <- varimax(raw_loadings_robust_pca, normalize = FALSE)$loadings
-#inv_loadings <- t(pracma::pinv(robust_pca_loadings_varimax))
-#res_pca_rot_scores <- scale(dia_merged_ffq) %*% inv_loadings
-#res_pca_rot_scores <- as_tibble(res_pca_rot_scores) %>% mutate(pseudo_ids = rownames(dia_merged_ffq)) 
-
-#write.table(res_pca_rot_scores,file='2023_02_15_ffq_robust_pca_varimax_loadings.txt', quote=FALSE, sep='\t',row.names = F)
-
-#print(inv_loadings)
-
-        #### =============== 7. PCA USING HIERARCHICAL CLUSTERING   ================ ####
-
-#pdf(file = "2023_02_16_diatrofi_ffq_pca_for_hcpc.pdf", useDingbats = F, onefile = T, width = 20, height=12)
-#visualizing pcas
-#res.pca <- PCA(dia_merged_ffq)
-#fviz_pca_biplot(res.pca)
-#dev.off()
-
-#hcpc
-#res.hcpc <- HCPC(res.pca, graph=F)
-
-#pdf(file = "2023_02_16_diatrofi_ffq_hcpc_dendogram_participants.pdf", useDingbats = F, onefile = T, width = 20, height=12)
-#fviz_dend(res.hcpc)
-#dev.off()
-#data is too large for clustering participants by denogram; instead, continue with follow-on approach 
-
-#pdf(file = "2023_02_16_diatrofi_ffq_hcpc_participant_clusters.pdf", useDingbats = F, onefile = T, width = 20, height=12)
-##options(ggrepel.max.overlaps = Inf)
-#fviz_cluster(res.hcpc,
-#             repel=T, #avoid label overlapping
-#             show.clust.cent=T, #show cluster centers
-#             elipse.type="norm",
-#             palette="jco", #color palette ?ggpubr::ggpar
-#             ggtheme=theme_minimal(),
-#             main="Factor map")
-#dev.off()
-
-#compare with previous cluster analysis 
-#clean Rstudio
-#rm(res.hcpc, res.pca)
-
-        #### =============== 8. CLUSTER ANALYSIS (EUCLIDEAN AND BRAY CURTIS DISTANCES)   ================ ####
-        
-        ####8.1: EUCLIDEAN DISTANCE####
-#NOTE: values were not scaled given that the values are already standardized 
-clus_analysis <- dia_merged_ffq
-head(rownames(dia_merged_ffq))
-str(dia_merged_ffq)
-#to avoid missings in rowVars function below, na.rm=T argument was added, however, missings have already been accounted for
-
-clus_analysis <- as.matrix(clus_analysis)
-
-#generate an index based on sample variance, as hierarchial clustering is sensitive to the order of cases
-rv <- rowVars(clus_analysis) #calculating row variance for each participant: sample variance of food portions by participant
-idx <- order(-rv) #index, which is based on the row variance (sorted from smallest to largest variance; high variance indicates differences in food portions by participant,
-#i.e. 1 serving of fruits vs 5 servings of vegetables per day, vs low variance where serving sizes are more or less the same)
-
-do.clustering(clus_analysis[idx,])->s1       #investigate possible h
-
-#investigating possible clusters and cuts
-hc <- hclust(dist(t(clus_analysis[idx,])))
-#cutree(hc, k=1:4) #cut tree based on clustering
-#hc_8_12 <- cutree(hc, k = c(8,12))
-#table(grp8 = hc_8_12[,"8"], grp25 = hc_8_12[,"12"])
-
-cutree(hc, h=48) #cut tree based on height
-
-#generate circularized plot
-my_colour <- colorRampPalette(brewer.pal(8, "Dark2"))
-pdf(file = "2023_02_16_diatrofi_ffq_items_CA_eucl.pdf", useDingbats = F, onefile = T, width = 25, height=25)
-hc <- as.dendrogram(hclust(dist(t(clus_analysis[idx,]))))
-hc <- hc %>%
-        color_branches(h = 48, col=my_colour(8)) %>%
-        color_labels(h = 48, col=my_colour(8)) %>%
-        set("branches_lwd", 3)
-circlize_dendrogram(hc,
-                    dend_track_height = 0.8)
-dev.off()
-#cut the tree at height 48
-
-##NOTE: Generate Centroid ONLY if this is the agreed method for dietary pattern analysis
-
-        ####8.2: BRAY CURTIS DISTANCE####
-#Bray Curtis is best for categorical or binary data (Euclidean is best for continous data)
-#Thus use the unweighted frequencies as input
-
-#str(dia_merged_ffq_bray_curtis)
-#head(rownames(dia_merged_ffq_bray_curtis))
-#clus_analysis <- dia_merged_ffq_bray_curtis
-##to avoid missings in rowVars function below, na.rm=T argument was added, however, rows with all NA's were filtered out first
-
-#for (i in 1:ncol(clus_analysis)){
-#        print(table(clus_analysis[,i], useNA = "ifany"))
-#        clus_analysis[,i] <- gsub("_.*", "", clus_analysis[,i])
-#        clus_analysis[,i] <- as.numeric(as.character(clus_analysis[,i]))
-#        print(table(clus_analysis[,i], useNA = "ifany"))
-#}
-
-#clus_analysis <- as.matrix(clus_analysis)
-
-#rv <- rowVars(clus_analysis) 
-#idx <- order(-rv) 
-
-#manually apply clustering to use Bray Curtis distance
-#generate bray curtis matrix
-#data.bray=vegdist(t(clus_analysis[idx,]))
-#data.bray=as.matrix(data.bray)
-#data.dist <- as.dist(data.bray)
-
-#hclust.object=hclust(data.dist, method="complete") 
-#plot(hang.dendrogram(as.dendrogram(hclust.object), cex=0.5, hang=-1)) #horiz=T, type="triangle", hang=-1, error: "hang" is not a graphical parameter
-
-#hc <- hclust.object
-
-#cutree(hc, h=0.65) #cut tree based on height
-#clustering_overview <- as.data.frame(cutree(hc, h=0.65))
-
-#generate circularized plot
-#my_colour <- colorRampPalette(brewer.pal(8, "Dark2"))
-#pdf(file = "2023_02_16_diatrofi_ffq_items_CA_BC.pdf", useDingbats = F, onefile = T, width = 25, height=25)
-#hc <- as.dendrogram(hc)
-#hc <- hc %>%
-#        color_branches(h = 0.65, col=my_colour(10)) %>%
-#        color_labels(h = 0.65, col=my_colour(10)) %>%
-#        set("branches_lwd", 3)
-#circlize_dendrogram(hc,
-#                    dend_track_height = 0.8)
-#dev.off()
-##cut the tree at height 400
