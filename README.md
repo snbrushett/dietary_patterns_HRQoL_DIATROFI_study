@@ -4,7 +4,7 @@ https://doi.org/10.1016/j.nut.2024.112367
 
 The following scripts are included:
 
-*dietary_indexes.R #generation of dietary indexes
+* dietary_indexes.R #generation of dietary indexes
 *dietary_patterns_pca_varimax.R #generation of dietary patterns 
 *0_derive_and_tidy_masterfile.R #tidying masterfile
 *1_tidy_masterfile.R #tidying masterfile
