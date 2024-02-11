@@ -13,9 +13,6 @@ library(foreach)
 ## 2. MODELS FOR MANUSCRIPT - FDR CORRECTION
 
                 #### =============== 0. LOAD DATA ================ ####
-#MAC-book location
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
 masterfile <- read.delim("2023_05_09_diatrofi_2015_2018_masterfile_updated.txt", sep = "\t", header = T, stringsAsFactors = T)
 #6583 66
 str(masterfile)
@@ -939,6 +936,4 @@ sum(final_linear_models$P_value<0.05)
 final_linear_models <- final_linear_models[order(final_linear_models$QoL_outcomes, final_linear_models$Dietary_features), ]
 #140  8
 
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/5_linear_regression/")
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/5_linear_regression/")
 write.table(final_linear_models, "2023_06_21_qol_diet_linear_manuscript_models_FDR_updated.txt", sep="\t", row.names=F, quote = F) 
