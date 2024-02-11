@@ -6,8 +6,6 @@
 ###              doi:10.1016/j.jacc.2017.05.047. (Plant Diversity Index paper)
 ###              https://www.nature.com/articles/s41591-020-01183-8 (microbiome related paper)
 
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/")
-
 #libraries
 library(tidyverse)
 library(DataExplorer)
@@ -443,7 +441,6 @@ food_groups <- as.data.frame(food_groups[,c("whole_grains",
 str(food_groups)
 #6074  25
 
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/dietary_patterns_ffq/microbiome_related_food_score/")
 pdf(file = "2023_02_23_food_groups_hist_plots.pdf", useDingbats = F, onefile = T, width = 20, height=12)
 food_groups %>% plot_histogram(nrow = 3L, ncol=2L)
 dev.off()
@@ -762,7 +759,6 @@ food_scores_all <- food_scores_all %>% rename(child_ffq_diet_quality_score=child
 food_scores_all$pseudo_ids <- as.factor(food_scores_all$pseudo_ids)
 #6074  4
 
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/dietary_patterns_ffq/microbiome_related_food_score/")
 write.table(food_scores_all, "2023_03_20_ffq_diet_quality_score.txt", sep="\t", row.names=F, quote = F)
 
         #### =============== 4. PEARSON CORRELATION OF SCORE WITH FFQ GROUPS AND ITEMS   ================ ####
