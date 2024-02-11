@@ -63,16 +63,12 @@ result <- function(x,y){
 ## 4. FEATURE ENGINEERING: HRQoL CONTINOUS PREDICTION MODELS
 
         #### =============== 0. LOAD DATA   ================ ####
-#MAC-book location
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
 masterfile <- read.delim("2023_05_09_diatrofi_2015_2018_masterfile_updated.txt", sep = "\t", header = T, stringsAsFactors = T)
 #6583 66
 str(masterfile)
 masterfile$child_demo_school_code <- as.factor(masterfile$child_demo_school_code)
 
         #### =============== 1. EXPLORATORY PLOTS   ================ ####
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/prediction_models/intermediate_files/")
-
 #healthy plant dietary index (hPDI) vs total HRQoL by several other possible predictors
 pdf(file = "2023_05_09_diet_by_hrqol_q15_covariates.pdf", useDingbats = F, onefile = T)
 masterfile %>% select(child_pedsql_health_related_qol_score_total_catg_Q15,
@@ -397,7 +393,6 @@ spearman_FDR <- spearman_FDR %>% filter(
 )
 #558  5
 
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/prediction_models/")
 pdf(file = "2023_05_15_hrqol_predictors_outcomes_spearman.pdf", useDingbats = F, onefile = T, width = 15, height=18)
 ggplot(data = spearman_corr, aes(factor1, factor2, fill = CorCoefficient))+
   geom_tile(color = "white")+
@@ -651,7 +646,6 @@ hrqol_vip
 
 #variables do not have a very high importance (%) in relation to QoL - we are already investigating child_demo_school_region
 
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/3_prediction_models/")
 pdf(file = "2023_05_09_predictors_of_hrqol.pdf", useDingbats = F, onefile = T, width = 20)
 hrqol_vip %>%
         group_by(Sign) %>%
