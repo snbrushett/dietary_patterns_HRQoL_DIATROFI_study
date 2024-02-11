@@ -17,9 +17,6 @@ library(basecamb) #to add confidence intervals to summary table output
 ## 2. MODELS FOR MANUSCRIPT - FDR CORRECTION
 
                 #### =============== 0. LOAD DATA ================ ####
-#MAC-book location
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
 masterfile <- read.delim("2023_05_09_diatrofi_2015_2018_masterfile_updated.txt", sep = "\t", header = T, stringsAsFactors = T)
 #6583 66
 str(masterfile)
@@ -1958,9 +1955,6 @@ qol_diet_log <- qol_diet_log %>%
 #order by QoL_outcomes and 'Dietary_features'
 qol_diet_log <- qol_diet_log[order(qol_diet_log$QoL_outcomes, qol_diet_log$Dietary_features), ]
 
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/4_logistic_regression/")
-setwd("C:/Users/Siobhan Brushett/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/4_logistic_regression/")
-
 write.table(qol_diet_log, "2023_07_05_qol_diet_log_all_models_updated.txt", sep="\t", row.names=F, quote = F) 
 
 #models did not collapse from over-correction or collinearity
@@ -1997,8 +1991,6 @@ sum(final_log_models$P_value<0.05)
 
 final_log_models <- final_log_models[order(final_log_models$Model, final_log_models$Dietary_features), ]
 
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/4_logistic_regression/")
-setwd("C:/Users/Siobhan Brushett//OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/4_logistic_regression/")
 str(final_log_models)
 write.table(final_log_models, "2023_07_05_qol_diet_log_manuscript_models_FDR_updated.txt", sep="\t", row.names=F, quote = F) 
 #140 10
