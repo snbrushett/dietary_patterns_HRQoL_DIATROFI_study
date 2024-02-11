@@ -15,7 +15,6 @@ library(skimr)
 ## 4. WRITE FILE
 
         #### =============== 0. LOAD AND UPDATE DATA FRAME   ================ ####
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/")
 masterfile <- read.delim("2023_03_20_diatrofi_2015_2018_masterfile.txt", sep = "\t", header = T, stringsAsFactors = T)
 str(masterfile)
 #6583 59
@@ -25,7 +24,6 @@ summary(masterfile)
 
         #### =============== 1. ADD MARGARINE INTAKE TO MASTERFILE (FOR ADJUSTMENT IN REGRESSION ANALYSES)   ================ ####
 #NOTE: because margarine was not included in the indexes, margarine needs to be adjusted for in regression analyses
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/")
 dia_merged <- read.delim("diatrofi_merged_2015_2018_baseline.txt", sep = "\t", header = T, stringsAsFactors = T)
 #6583  117
 row.names(dia_merged) <- dia_merged$pseudo_ids
@@ -314,8 +312,6 @@ masterfile_updated$child_phyact_play_outside_days_per_wk <- as.numeric(as.charac
 str(masterfile_updated)
 
         #### =============== 3. GENERATE CONTINUOUS QOL USING PERCENTILES   ================ ####
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
-
 #calculate the percentile for each value of QoL (using the cumulative distribution function)
 masterfile_updated$child_pedsql_phy_score_perc <- ecdf(masterfile_updated$child_pedsql_phy_score)(masterfile_updated$child_pedsql_phy_score)*100
 masterfile_updated$child_pedsql_emo_score_perc <- ecdf(masterfile_updated$child_pedsql_emo_score)(masterfile_updated$child_pedsql_emo_score)*100
