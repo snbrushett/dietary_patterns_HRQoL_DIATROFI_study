@@ -14,8 +14,6 @@ library(DataExplorer)
 ## 1. TABLE 1: DESCRIPTIVE STATISTICS
 
         #### =============== 0. LOAD DATA ================ ####
-#MAC-book location
-setwd("~/OneDrive - UMCG/Prolepsis_internship/merged_2015_2018/masterfile/2_tidy_masterfile_incl_marg_add_hrqol_percentiles/")
 masterfile <- read.delim("2023_05_09_diatrofi_2015_2018_masterfile_updated.txt", sep = "\t", header = T, stringsAsFactors = T)
 #6583 66
 str(masterfile)
