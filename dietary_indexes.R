@@ -1,6 +1,6 @@
-###     SCRIPT: DIATROFI DERIVE MICROBIOME RELATED FOOD SCORE
+###     SCRIPT: DIATROFI DERIVE DIETARY INDEXES
 ###     AUTHOR(S): SIOBHAN BRUSHETT 
-###     DESCRIPTION: DERIVE DIETARY MICROBIOME RELATED FOOD SCORE FROM hPDI AND THE ANIMAL SCORE INDECES USED IN LITERATURE ON ASSOCIATIONS OF FOOD ITEMS WITH THE GUT MICROBIOME
+###     DESCRIPTION: DERIVE DIETARY INDEXES FROM hPDI AND THE ANIMAL SCORE INDECES USED IN LITERATURE ON ASSOCIATIONS OF FOOD ITEMS WITH THE GUT MICROBIOME
 ###     PROJECT: MERGED DIATROFI 2015-2018
 ###     NOTE(S): NB!! Use in combination with '2023_02_22_dietary_diversity_microbiome_related.xlsx' spreadsheet
 ###              doi:10.1016/j.jacc.2017.05.047. (Plant Diversity Index paper)
@@ -18,7 +18,7 @@ library(reshape2)
 ## 0. LOAD DATA
 ## 1. CLEAN FFQ ITEMS BY EXCLUSION CRITERIA
 ## 2. DERIVE FFQ WEIGHTED FREQUENCIES
-## 3. DERIVE DIETARY DIVERSITY INDECES
+## 3. DERIVE FOOD GROUPS AND DIETARY INDEXES 
 
 #functions
 #pearson correlation (Alex and Trishla)
@@ -263,7 +263,7 @@ for (i in 1:ncol(dia_merged_ffq)){
 
 summary(dia_merged_ffq)
 
-        #### =============== 3. DERIVE FOOD GROUPS AND MICROBIOME RELATED FOOD SCORE   ================ ####
+        #### =============== 3. DERIVE FOOD GROUPS AND DIETARY INDEXES   ================ ####
 
 #NOTE: The only item that is not included is margarine.
 #"margarine’s fatty acid composition has changed over time from high trans to high unsaturated fats, 
